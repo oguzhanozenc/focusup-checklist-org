@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusUp</title>
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Bootstrap Bundle with Popper -->
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="site-header reveal reveal-from-top">
+      <div class="header-inner">
+        <a href="#top" class="logo">
+          <img src="img/logo-focus-color.svg" alt="Focus Up logo" />
+        </a>
+
+        <button class="nav-toggle" aria-expanded="false" aria-label="Open menu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav">
+          <ul class="nav-list">
+            <li><a href="#problem" data-scroll>The Problem.</a></li>
+            <li><a href="#facts" data-scroll>The Facts.</a></li>
+            <li><a href="#solution" data-scroll>The Solution.</a></li>
+            <li><a href="#impact" data-scroll>Impact.</a></li>
+            <li><a href="#get-involved" data-scroll>Get Involved.</a></li>
+          </ul>
+        </nav>
+
+        <a
+          href="#contact"
+          class="btn btn-primary d-none d-md-block"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal"
+          >Contact us</a
+        >
+         <a
+          href="#contact"
+          class="btn-icon d-block d-md-none"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal"
+          > <img src="img/icon-mail.svg" alt="contact us" /></a
+        >
+      </div>
+    </header>
+
+    <!--Section: Hero-->
+
+    <section id="top" class="hero">
+      <div class="container hero-inner">
+        <div class="row align-items-center">
+          <!-- Columna izquierda: logo grande -->
+          <div
+            class="col-12 col-md-4 text-center mb-4 mb-md-0 reveal reveal-from-left"
+          >
+            <img
+              src="img/logo-focus-color.svg"
+              alt="Focus Up logo"
+              class="hero-logo-lg"
+            />
+          </div>
+
+          <!-- Columna derecha: texto + botones -->
+          <div class="col-12 col-md-8 reveal reveal-from-right">
+            <h1 class="hero-title">
+              Own the drive.<br />
+              <span>Focus up.</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              We support new drivers to take the wheel with focus, confidence,
+              and responsibility by using a simple checklist that saves lives.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#get-involved" class="btn btn-secondary" data-scroll
+                >Get Involved →</a
+              >
+              <a href="#get-involved" class="btn btn-primary" data-scroll
+                >Donate Now →</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Section: Problem-->
+
+    <main>
+      <div class="road-wrapper">
+        <!-- Carretera estática -->
+        <img src="img/road.svg" alt="Camino Focus Up" class="road-base" />
+
+        <!-- Línea amarilla animada -->
+        <svg
+          width="1098"
+          height="3685"
+          viewBox="0 0 1188 3685"
+          xmlns="http://www.w3.org/2000/svg"
+          class="road-line"
+        >
+          <path
+            id="yellow-line"
+            d="M825.99,0v265.8c0,63.58,50.01,115.32,111.51,115.32h90.6c61.5,0,111.51,51.72,111.51,115.32s-50.03,115.32-111.51,115.32H174.74c-69.76,0-126.49,58.69-126.49,130.82s56.75,130.82,126.49,130.82h656.12c78.02,0,141.51,65.66,141.51,146.35s-63.49,146.34-141.51,146.34h-38.3c-66.19,0-120.06,55.7-120.06,124.17s-53.87,124.17-120.06,124.17h-191.14c-96.95,0-175.83,81.57-175.83,181.84,0,0-.21,71.99,33.79,125.74s137.11,97.78,140.25,180.27c3.11,81.91,2.52,70.76,2.52,70.73v248.8c0,63.57-50.01,115.31-111.51,115.31h-90.6c-61.49,0-111.51,51.72-111.51,115.31s50.03,115.32,111.51,115.32h853.35c69.77,0,126.49,58.69,126.49,130.82s-56.75,130.81-126.49,130.81H357.15c-78.03,0-141.51,65.66-141.51,146.35s63.49,146.34,141.51,146.34h38.3c66.19,0,120.06,55.7,120.06,124.17s53.87,124.17,120.06,124.17h191.14c96.95,0,175.83,81.57,175.83,181.84v131.95"
+            fill="none"
+            stroke="#FFB600"
+            stroke-width="6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+         
+        <!-- Location point -->
+        <img
+          src="img/icon-location.svg"
+          alt="Location point"
+          class="location-icon"
+        />
+        <!-- Auto -->
+        <img src="img/car.svg" alt="Auto" class="car-icon" />
+      </div>
+     
+
+      <section id="problem" class="section-problem">
+        <div class="container">
+          <div class="problem-card card reveal col-12 col-md-7">
+            <div class="card-title d-flex align-items-center">
+              <div class="problem-icon">
+                <img src="img/icon-alert.svg" alt="distraction" />
+              </div>
+              <h2 class="problem-title white">
+                <span class="accent">Distraction</span> isn’t small. It’s
+                everywhere.
+              </h2>
+            </div>
+
+            <div class="problem-content">
+              <p class="card-text">
+                <b
+                  >Over one-half of serious teen crashes happen when drivers are
+                  distracted in the moments before impact.</b
+                >
+                In a detailed study of video-recorded crashes,
+                <b class="yellow">58%</b> of moderate-to-severe crashes
+                involving teens included some form of distraction, whether
+                talking with passengers, checking a phone, or reaching inside
+                the car.
+              </p>
+
+              <p class="card-text">
+                Many teens underestimate how often they send texts, adjust
+                music, or look away for just a few seconds, but even that can
+                make a big difference. With the right mindset and tools, teens
+                can take control of their focus, and their future.
+              </p>
+            </div>
+          </div>
+        </div>
+        <img src="img/sign-bike.svg" alt="Auto" class="sign-bike" />
+        <img src="img/bike.svg" alt="Auto" class="bike" />
+      </section>
+
+      <!--Section: FAQS-->
+
+      <section id="facts" class="section-facts">
+        <div class="container">
+          <div
+            class="facts-card card reveal col-12 col-md-10 offset-md-1 center-obj"
+            data-facts-card
+          >
+            <div
+              class="card-title d-flex align-items-center"
+              data-facts-title
+            ></div>
+
+            <div class="facts-content" data-facts-body></div>
+
+            <button class="facts-icon" type="button" data-facts-next>
+              <img src="img/icon-arrow-down.svg" alt="Next fact" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!--Section: Solution-->
+
+      <section id="solution" class="section-solution">
+        <div class="container">
+          <div class="solution-card card reveal col-12 col-md-10">
+            <div class="row align-items-start">
+              <div class="solution-img-wrapper col-12 col-md-5">
+                <img
+                  src="img/checklist.jpg"
+                  alt="distraction"
+                  class="img-responsive"
+                />
+              </div>
+
+              <div class="solution-content col-12 col-md-7">
+                <h2 class="solution-title mx-0 mt-2 mb-4">
+                  A simple <span class="green-accent">checklist.</span>
+                  A powerful habit.
+                </h2>
+                <p class="card-text black bold">
+                  Just like in aviation and medicine, high-stakes routines that
+                  have significant consequences benefit from clear, repeatable
+                  steps. Driving is no different.
+                </p>
+
+                <p class="card-text black">
+                  The Focus Up Checklist is a small (3.5” x 2.25”) reminder that
+                  makes a big impact. It’s a visual cue affixed to the upper
+                  left area of windshields that helps new drivers practice safe,
+                  focused driving, every single time they start the engine.
+                </p>
+
+                <p class="card-text black bold">
+                  Because focus isn’t automatic. It’s a skill and habit you
+                  build, one drive at a time
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img src="img/sign-bus.svg" alt="Auto" class="sign-bike" />
+      </section>
+
+      <!--Section: Impact-->
+
+      <section id="impact" class="section-impact">
+        <div class="container">
+          <div class="impact-card card reveal col-12 col-md-7 offset-md-4">
+            <div class="card-title d-flex align-items-center">
+              <h2 class="impact-title white">
+                Every checklist counts.
+                <span class="accent"
+                  >Every focused driver makes a difference.</span
+                >
+              </h2>
+            </div>
+
+            <div class="impact-content">
+              <p class="card-text bold">
+                When one person focuses up, everyone on the road benefits:
+                friends, families, pedestrians, cyclists and communities.
+              </p>
+
+              <p class="card-text bold">
+                Your support helps us reach more young drivers, distribute more
+                checklists, and create safer roads for everyone.
+              </p>
+            </div>
+          </div>
+        </div>
+        <img src="img/bus.svg" alt="Bus" class="bus" />
+      </section>
+
+      <!--Section: Involved-->
+
+      <section id="get-involved">
+        <div class="container">
+          <div class="get-involved-card card reveal col-12 col-md-9">
+            <div class="card-title d-flex align-items-center">
+              <h2 class="get-involved-title white">
+                Join the movement <br />
+                to <span class="accent">Focus Up.</span>
+              </h2>
+            </div>
+
+            <div class="get-involved-content">
+              <p class="card-text bold">
+                Whether you’re a parent, educator, student, corporation,
+                government entity, or philanthropist, you can be part of
+                creating safer roads.
+              </p>
+
+              <p class="card-text">
+                Request materials for your school or donate to help expand our
+                reach. Together, we can help every teen take the wheel with
+                confidence.
+              </p>
+            </div>
+            <div class="actions mt-4 mb-2 gap-4 d-flex flex-column flex-md-row">
+              <a href="#get-involved" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#contactModal"
+                >Request Info →</a
+              >
+              <a href="#donate" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal"
+                >Donate Now →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row align-items-center">
+          <div
+            class="col-12 col-md-7 footer-brand d-flex gap-3 align-items-center"
+          >
+            <img
+              src="img/logo-focus-black.svg"
+              alt="Focus Up"
+              class="footer-logo"
+              width="120px"
+            />
+            <div class="footer-text black">
+              <p>
+                Focus Up is a nonprofit committed to preventing roadway
+                fatalities and life‑changing injuries by encouraging new drivers
+                to use our checklist.
+              </p>
+              <p>© 2025 Focus Up. All rights reserved.</p>
+            </div>
+          </div>
+
+          <div
+            class="col-12 col-md-5 d-flex flex-column flex-md-row align-items-center justify-content-end gap-4 mt-4 mt-md-0"
+          >
+            <div class="footer-socials">
+              <a href="#" aria-label="TikTok" class="footer-social-link">
+                <img src="img/btn-social-tik-tok.svg" alt="" />
+              </a>
+              <a href="#" aria-label="Instagram" class="footer-social-link">
+                <img src="img/btn-social-insta.svg" alt="" />
+              </a>
+              <a href="#" aria-label="LinkedIn" class="footer-social-link">
+                <img src="img/btn-social-linkedin.svg" alt="" />
+              </a>
+            </div>
+
+            <button
+              class="btn btn-outline-black"
+              type="button"
+              data-open-modal="contact-modal"
+            >
+              Contact us →
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--Modal: Contact Us-->
+
+    <div
+      class="modal fade"
+      id="contactModal"
+      tabindex="-1"
+      aria-labelledby="contactModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h2 class="modal-title" id="contact-title">Contact <span>Us.</span></h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form class="modal-form" id="contact-form"></form>
+          <div class="modal-body">
+           
+          <div class="form-group">
+            <label for="full-name">Full name *</label>
+            <input type="text" id="full-name" name="fullName" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email address *</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="org">Organization (optional)</label>
+            <input type="text" id="org" name="organization" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+          </div>
+
+          <!-- <div class="modal-actions">
+            <button type="button" class="btn-cancel">Cancel</button>
+            <button type="submit" class="btn-submit">Submit →</button>
+          </div> -->
+        
+          </div>
+          <div class="modal-footer modal-actions">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Send message</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
