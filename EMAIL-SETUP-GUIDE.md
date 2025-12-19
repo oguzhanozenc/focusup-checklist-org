@@ -150,4 +150,4 @@ Same test as Option A. Should now work reliably.
 
 The form already validates fields (*) and shows success/error messages. You're all set!
 
-**Need help?** Contact [your name/email]
+**Need help?** Contact me: agustina.roig@gmail.com
