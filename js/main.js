@@ -78,23 +78,98 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* =========================
-   *  4) MODAL CONTACT (Bootstrap)
-   * ========================= */
-  const contactForm = document.getElementById("contact-form");
+/* =========================
+ *  4) MODAL CONTACT (Bootstrap)
+ * ========================= */
+const contactForm = document.getElementById("contact-form");
+const contactMessage = document.getElementById("contact-message");
 
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      alert("Mensaje enviado (demo).");
+    const fullNameInput = contactForm.querySelector("#full-name");
+    const emailInput = contactForm.querySelector("#email");
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    const fullName = fullNameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    // Reset errores visuales
+    fullNameInput.classList.remove("is-invalid");
+    emailInput.classList.remove("is-invalid");
+
+    let hasError = false;
+
+    // Validación simple de requeridos
+    if (fullName.length < 2) {
+      hasError = true;
+      fullNameInput.classList.add("is-invalid");
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      hasError = true;
+      emailInput.classList.add("is-invalid");
+    }
+
+    if (hasError) {
+      showContactMessage(
+        "Please complete the required fields marked with *.",
+        false
+      );
+      return;
+    }
+
+    // Deshabilitar botón mientras se envía
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Sending...";
+
+    try {
+      const formData = new FormData(contactForm);
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Network error");
+
+      const text = await response.text();
+      if (text.trim() !== "OK") {
+        throw new Error("Server error: " + text);
+      }
+
       contactForm.reset();
+      showContactMessage("Thank you! Your message has been sent.", true);
 
-      const modalEl = document.getElementById("contactModal");
-      const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      modalInstance?.hide();
-    });
-  }
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+
+      // Opcional: cerrar modal después de un tiempo
+      // const modalEl = document.getElementById("contactModal");
+      // const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      // setTimeout(() => modalInstance?.hide(), 2000);
+    } catch (err) {
+      console.error(err);
+      showContactMessage(
+        "There was a problem sending your message. Please try again.",
+        false
+      );
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+}
+
+function showContactMessage(message, isSuccess) {
+  if (!contactMessage) return;
+  contactMessage.textContent = message;
+  contactMessage.hidden = false;
+  contactMessage.classList.toggle("modal-message--success", isSuccess);
+  contactMessage.classList.toggle("modal-message--error", !isSuccess);
+}
+
 
   /* =========================
    *  5) REVEAL ON SCROLL

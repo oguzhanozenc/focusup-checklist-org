@@ -24,7 +24,7 @@ $org      = htmlspecialchars($org, ENT_QUOTES, 'UTF-8');
 $message  = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 // Dirección de destino (email del cliente)
-$to = 'info@su-dominio.com'; // <-- cámbialo por el real
+$to = 'focusupchecklist@gmail.com'; // <-- cámbialo por el real
 
 $subject = 'New contact form message - Focus Up';
 

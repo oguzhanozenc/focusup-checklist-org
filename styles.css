@@ -539,10 +539,6 @@ bg-white {
   backdrop-filter: blur(10px);
 }
 
-.modal.is-open {
-  display: block;
-}
-
 /* CONTENEDOR DEL MODAL */
 .modal-dialog {
   max-width: 860px;
@@ -553,17 +549,6 @@ bg-white {
   padding: 32px 30px 28px;
   color: #111111;
   position: relative;
-}
-
-/* Cerrar */
-.modal-close {
-  position: absolute;
-  top: 18px;
-  right: 20px;
-  border: none;
-  background: transparent;
-  font-size: 18px;
-  cursor: pointer;
 }
 
 /* Título */
@@ -588,6 +573,7 @@ bg-white {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 4px;
+  margin-top: 10px;
   color: #666666;
 }
 
@@ -609,6 +595,19 @@ bg-white {
   background-color: #ffffff;
 }
 
+.modal-message {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.modal-message--success {
+  color: #0d7a4f;
+}
+
+.modal-message--error {
+  color: #b3261e;
+}
+
 /* Botones del modal */
 .modal-actions {
   display: flex;
@@ -617,23 +616,10 @@ bg-white {
   margin-top: 18px;
 }
 
-.btn-cancel {
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 1px solid #111111;
-  background: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.btn-submit {
-  padding: 10px 26px;
-  border-radius: 999px;
-  border: none;
-  background: var(--yellow);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.form-group input.is-invalid,
+.form-group textarea.is-invalid {
+  border-color: #b3261e;
+  background-color: #fff5f5;
 }
 
 /* Responsive modal */
@@ -1048,15 +1034,3 @@ p {
 }
 }
   
-.modal-message {
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-}
-
-.modal-message--success {
-  color: #0d7a4f;
-}
-
-.modal-message--error {
-  color: #b3261e;
-}
