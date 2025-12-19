@@ -76,16 +76,19 @@ text
 2. Click **"Code" → "Download ZIP"**
 3. Extract ZIP → copy the `src` folder
 
-### Step 2: Upload PHPMailer
+Step 2: Upload PHPMailer
+
 Create folder `phpmailer` next to `contact.php`:
+
 your-website/
 ├── contact.php
 ├── phpmailer/
-│ └── src/
-│ ├── PHPMailer.php
-│ ├── SMTP.php
-│ └── Exception.php
+│   └── src/
+│       ├── PHPMailer.php
+│       ├── SMTP.php
+│       └── Exception.php
 └── index.html
+
 
 text
 
