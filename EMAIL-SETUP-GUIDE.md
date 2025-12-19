@@ -41,7 +41,7 @@ Upload **all project files** (including `contact.php`) to your hosting's main fo
 ### Step 2: Edit contact.php
 1. Open `contact.php` in any text editor
 2. Find this line (around line 25):
-$to = 'focusupchecklist@gmail.com'; // <-- CHANGE THIS
+$to = 'focusupchecklist@gmail.com'; // <-- I ALREADY CHANGED THIS
 
 text
 3. Replace with **your email**:
