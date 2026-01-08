@@ -78,98 +78,92 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-/* =========================
- *  4) MODAL CONTACT (Bootstrap)
- * ========================= */
-const contactForm = document.getElementById("contact-form");
-const contactMessage = document.getElementById("contact-message");
+  /* =========================
+   *  4) MODAL CONTACT (Bootstrap) - UPDATED
+   * ========================= */
+  const contactForm = document.getElementById("contact-form");
+  const contactMessage = document.getElementById("contact-message");
 
-if (contactForm) {
-  contactForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    const fullNameInput = contactForm.querySelector("#full-name");
-    const emailInput = contactForm.querySelector("#email");
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const fullNameInput = contactForm.querySelector("#full-name");
+      const emailInput = contactForm.querySelector("#email");
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-    const fullName = fullNameInput.value.trim();
-    const email = emailInput.value.trim();
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
 
-    // Reset errores visuales
-    fullNameInput.classList.remove("is-invalid");
-    emailInput.classList.remove("is-invalid");
+      // Reset errores visuales
+      fullNameInput.classList.remove("is-invalid");
+      emailInput.classList.remove("is-invalid");
 
-    let hasError = false;
+      let hasError = false;
 
-    // Validación simple de requeridos
-    if (fullName.length < 2) {
-      hasError = true;
-      fullNameInput.classList.add("is-invalid");
-    }
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      hasError = true;
-      emailInput.classList.add("is-invalid");
-    }
-
-    if (hasError) {
-      showContactMessage(
-        "Please complete the required fields marked with *.",
-        false
-      );
-      return;
-    }
-
-    // Deshabilitar botón mientras se envía
-    submitBtn.disabled = true;
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = "Sending...";
-
-    try {
-      const formData = new FormData(contactForm);
-      const response = await fetch(contactForm.action, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Network error");
-
-      const text = await response.text();
-      if (text.trim() !== "OK") {
-        throw new Error("Server error: " + text);
+      // Validación simple de requeridos
+      if (fullName.length < 2) {
+        hasError = true;
+        fullNameInput.classList.add("is-invalid");
       }
 
-      contactForm.reset();
-      showContactMessage("Thank you! Your message has been sent.", true);
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        hasError = true;
+        emailInput.classList.add("is-invalid");
+      }
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      if (hasError) {
+        showContactMessage(
+          "Please complete the required fields marked with *.",
+          false
+        );
+        return;
+      }
 
-      // Opcional: cerrar modal después de un tiempo
-      // const modalEl = document.getElementById("contactModal");
-      // const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      // setTimeout(() => modalInstance?.hide(), 2000);
-    } catch (err) {
-      console.error(err);
-      showContactMessage(
-        "There was a problem sending your message. Please try again.",
-        false
-      );
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-    }
-  });
-}
+      // Deshabilitar botón mientras se envía
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Sending...";
 
-function showContactMessage(message, isSuccess) {
-  if (!contactMessage) return;
-  contactMessage.textContent = message;
-  contactMessage.hidden = false;
-  contactMessage.classList.toggle("modal-message--success", isSuccess);
-  contactMessage.classList.toggle("modal-message--error", !isSuccess);
-}
+      try {
+        const formData = new FormData(contactForm);
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: formData,
+        });
 
+        // Parse JSON response
+        const result = await response.json();
+
+        if (result.success) {
+          contactForm.reset();
+          showContactMessage("Thank you! Your message has been sent.", true);
+        } else {
+          throw new Error(result.message || "Server error");
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      } catch (err) {
+        console.error(err);
+        showContactMessage(
+          "There was a problem sending your message. Please try again.",
+          false
+        );
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    });
+  }
+
+  function showContactMessage(message, isSuccess) {
+    if (!contactMessage) return;
+    contactMessage.textContent = message;
+    contactMessage.hidden = false;
+    contactMessage.classList.toggle("modal-message--success", isSuccess);
+    contactMessage.classList.toggle("modal-message--error", !isSuccess);
+  }
 
   /* =========================
    *  5) REVEAL ON SCROLL
@@ -196,13 +190,13 @@ function showContactMessage(message, isSuccess) {
   /* =========================
    *  6) FACTS CARD (slider)
    * ========================= */
-const factsCard = document.querySelector("[data-facts-card]");
-const factsTitleEl = document.querySelector("[data-facts-title]");
-const factsBodyEl = document.querySelector("[data-facts-body]");
-const factsNextBtn = document.querySelector("[data-facts-next]");
+  const factsCard = document.querySelector("[data-facts-card]");
+  const factsTitleEl = document.querySelector("[data-facts-title]");
+  const factsBodyEl = document.querySelector("[data-facts-body]");
+  const factsNextBtn = document.querySelector("[data-facts-next]");
 
-if (factsCard && factsTitleEl && factsBodyEl && factsNextBtn) {
-  const factsSlides = [
+  if (factsCard && factsTitleEl && factsBodyEl && factsNextBtn) {
+    const factsSlides = [
       {
         title: `<h2 class="problem-title white">Car crashes are <span class="accent">the second leading cause of death for U.S. teenagers.</span></h2>`,
         body: `<h3 class="problem-title white">New drivers <span class="accent">(ages 16–19)</span> are a small fraction of the driving population…<br/>
@@ -247,109 +241,112 @@ if (factsCard && factsTitleEl && factsBodyEl && factsNextBtn) {
       },
     ];
 
-let index = 0;
-  let isSwitching = false;
-  const TRANSITION_MS = 400;
+    let index = 0;
+    let isSwitching = false;
+    const TRANSITION_MS = 400;
 
-  function lockPageScroll() {
-    document.body.style.overflow = "hidden";
-  }
-
-  function unlockPageScroll() {
-    document.body.style.overflow = "";
-  }
-
-  function renderFact(i) {
-    const slide = factsSlides[i];
-    if (!slide) return;
-
-    isSwitching = true;
-
-    const currentItem = factsBodyEl.querySelector(".facts-body-item");
-    if (currentItem) {
-      currentItem.classList.remove("is-visible");
+    function lockPageScroll() {
+      document.body.style.overflow = "hidden";
     }
 
-    setTimeout(() => {
-      factsTitleEl.innerHTML = slide.title;
+    function unlockPageScroll() {
+      document.body.style.overflow = "";
+    }
 
-      const wrapper = document.createElement("div");
-      wrapper.className = "facts-body-item";
-      wrapper.innerHTML = slide.body;
+    function renderFact(i) {
+      const slide = factsSlides[i];
+      if (!slide) return;
 
-      factsBodyEl.innerHTML = "";
-      factsBodyEl.appendChild(wrapper);
+      isSwitching = true;
 
-      void wrapper.offsetWidth;
-      wrapper.classList.add("is-visible");
+      const currentItem = factsBodyEl.querySelector(".facts-body-item");
+      if (currentItem) {
+        currentItem.classList.remove("is-visible");
+      }
 
-      factsNextBtn.classList.toggle(
-        "is-disabled",
-        i === factsSlides.length - 1
+      setTimeout(
+        () => {
+          factsTitleEl.innerHTML = slide.title;
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "facts-body-item";
+          wrapper.innerHTML = slide.body;
+
+          factsBodyEl.innerHTML = "";
+          factsBodyEl.appendChild(wrapper);
+
+          void wrapper.offsetWidth;
+          wrapper.classList.add("is-visible");
+
+          factsNextBtn.classList.toggle(
+            "is-disabled",
+            i === factsSlides.length - 1
+          );
+
+          setTimeout(() => {
+            isSwitching = false;
+          }, TRANSITION_MS);
+        },
+        currentItem ? TRANSITION_MS : 0
       );
+    }
 
-      setTimeout(() => {
-        isSwitching = false;
-      }, TRANSITION_MS);
-    }, currentItem ? TRANSITION_MS : 0);
-  }
+    function nextFact() {
+      if (isSwitching || index >= factsSlides.length - 1) return;
 
-  function nextFact() {
-    if (isSwitching || index >= factsSlides.length - 1) return;
+      index++;
+      renderFact(index);
 
-    index++;
+      if (index < factsSlides.length - 1) {
+        // Todavía hay slides internos: seguimos bloqueando el scroll de la página
+        lockPageScroll();
+      } else {
+        // Último slide: liberar el scroll global
+        unlockPageScroll();
+      }
+    }
+
+    // Inicial
     renderFact(index);
 
-    if (index < factsSlides.length - 1) {
-      // Todavía hay slides internos: seguimos bloqueando el scroll de la página
+    // Click en el botón "Next"
+    factsNextBtn.addEventListener("click", nextFact);
+
+    // Wheel suave con acumulación
+    let wheelAccumulator = 0;
+    const WHEEL_THRESHOLD = 60; // más sensible que 120
+
+    function onWheel(e) {
+      // Si ya estamos en el último slide, dejar que la página scrollee normal
+      if (index >= factsSlides.length - 1) {
+        unlockPageScroll();
+        return;
+      }
+
+      // Mientras haya slides internos, consumimos el scroll aquí
+      e.preventDefault();
       lockPageScroll();
-    } else {
-      // Último slide: liberar el scroll global
-      unlockPageScroll();
+
+      if (isSwitching) return;
+
+      wheelAccumulator += e.deltaY;
+
+      if (wheelAccumulator >= WHEEL_THRESHOLD) {
+        wheelAccumulator = 0;
+        nextFact();
+      }
     }
+
+    factsCard.addEventListener("wheel", onWheel, { passive: false });
+
+    // Por seguridad, si el usuario se va de la card y ya está en el último slide,
+    // asegurarse de no dejar el body bloqueado
+    factsCard.addEventListener("mouseleave", () => {
+      if (index >= factsSlides.length - 1) {
+        unlockPageScroll();
+      }
+    });
   }
-
-  // Inicial
-  renderFact(index);
-
-  // Click en el botón "Next"
-  factsNextBtn.addEventListener("click", nextFact);
-
-  // Wheel suave con acumulación
-  let wheelAccumulator = 0;
-  const WHEEL_THRESHOLD = 60; // más sensible que 120
-
-  function onWheel(e) {
-    // Si ya estamos en el último slide, dejar que la página scrollee normal
-    if (index >= factsSlides.length - 1) {
-      unlockPageScroll();
-      return;
-    }
-
-    // Mientras haya slides internos, consumimos el scroll aquí
-    e.preventDefault();
-    lockPageScroll();
-
-    if (isSwitching) return;
-
-    wheelAccumulator += e.deltaY;
-
-    if (wheelAccumulator >= WHEEL_THRESHOLD) {
-      wheelAccumulator = 0;
-      nextFact();
-    }
-  }
-
-  factsCard.addEventListener("wheel", onWheel, { passive: false });
-
-  // Por seguridad, si el usuario se va de la card y ya está en el último slide,
-  // asegurarse de no dejar el body bloqueado
-  factsCard.addEventListener("mouseleave", () => {
-    if (index >= factsSlides.length - 1) {
-      unlockPageScroll();
-    }
-  });
-}
 
   /* =========================
    *  7) ROAD SVG SCROLL ANIMATION
@@ -372,7 +369,9 @@ let index = 0;
     function onScroll() {
       const deltaY = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
-      targetSpeed = deltaY ? -Math.sign(deltaY) * 0.3 * Math.min(Math.abs(deltaY), 60) : 0;
+      targetSpeed = deltaY
+        ? -Math.sign(deltaY) * 0.3 * Math.min(Math.abs(deltaY), 60)
+        : 0;
     }
 
     function animate(time) {
@@ -397,86 +396,90 @@ let index = 0;
   /* =========================
    *  8) VEHICLE ANIMATIONS
    * ========================= */
-//   function setupScrollAnimation(el, animation, duration, delay = 0, minInterval = 8000) {
-//     if (!el) return;
+  //   function setupScrollAnimation(el, animation, duration, delay = 0, minInterval = 8000) {
+  //     if (!el) return;
 
-//     let lastStart = 0;
-//     let isAnimating = false;
+  //     let lastStart = 0;
+  //     let isAnimating = false;
 
-//     const observer = new IntersectionObserver(
-//       ([entry]) => {
-//         if (!entry.isIntersecting) return;
+  //     const observer = new IntersectionObserver(
+  //       ([entry]) => {
+  //         if (!entry.isIntersecting) return;
 
-//         const now = performance.now();
-//         if (isAnimating || now - lastStart < minInterval) return;
+  //         const now = performance.now();
+  //         if (isAnimating || now - lastStart < minInterval) return;
 
-//         isAnimating = true;
-//         lastStart = now;
+  //         isAnimating = true;
+  //         lastStart = now;
 
-//         setTimeout(() => {
-//           el.style.animation = "none";
-//           void el.offsetWidth;
-//           el.style.animation = `${animation} ${duration}ms linear forwards`;
+  //         setTimeout(() => {
+  //           el.style.animation = "none";
+  //           void el.offsetWidth;
+  //           el.style.animation = `${animation} ${duration}ms linear forwards`;
 
-//           setTimeout(() => (isAnimating = false), duration);
-//         }, delay);
-//       },
-//       { threshold: 0.3 }
-//     );
+  //           setTimeout(() => (isAnimating = false), duration);
+  //         }, delay);
+  //       },
+  //       { threshold: 0.3 }
+  //     );
 
-//     observer.observe(el);
-//   }
+  //     observer.observe(el);
+  //   }
 
-//   setupScrollAnimation(document.querySelector(".bike"), "bike-ride", 4000, 2000, 12000);
-//   setupScrollAnimation(document.querySelector(".bus"), "bus-ride", 5000, 2000, 15000);
+  //   setupScrollAnimation(document.querySelector(".bike"), "bike-ride", 4000, 2000, 12000);
+  //   setupScrollAnimation(document.querySelector(".bus"), "bus-ride", 5000, 2000, 15000);
 
-/* =========================
- *  8) VEHICLE ANIMATIONS
- * ========================= */
-function setupLoopAnimation(el, animation, durationMs, intervalMs, initialDelayMs = 0) {
-  if (!el) return;
+  /* =========================
+   *  8) VEHICLE ANIMATIONS
+   * ========================= */
+  function setupLoopAnimation(
+    el,
+    animation,
+    durationMs,
+    intervalMs,
+    initialDelayMs = 0
+  ) {
+    if (!el) return;
 
-  let isAnimating = false;
+    let isAnimating = false;
 
-  function runOnce() {
-    if (isAnimating) return;
-    isAnimating = true;
+    function runOnce() {
+      if (isAnimating) return;
+      isAnimating = true;
 
-    // Reiniciar animación CSS
-    el.style.animation = "none";
-    void el.offsetWidth; // forzar reflow
-    el.style.animation = `${animation} ${durationMs}ms linear forwards`;
+      // Reiniciar animación CSS
+      el.style.animation = "none";
+      void el.offsetWidth; // forzar reflow
+      el.style.animation = `${animation} ${durationMs}ms linear forwards`;
 
-    // Al terminar la animación, liberar flag
-    setTimeout(() => {
-      isAnimating = false;
-    }, durationMs);
+      // Al terminar la animación, liberar flag
+      setTimeout(() => {
+        isAnimating = false;
+      }, durationMs);
+    }
+
+    // Primera pasada (con delay opcional)
+    setTimeout(runOnce, initialDelayMs);
+
+    // Pasadas siguientes en bucle
+    setInterval(runOnce, intervalMs);
   }
 
-  // Primera pasada (con delay opcional)
-  setTimeout(runOnce, initialDelayMs);
+  // Bici: anima 4s, pasa cada 5s (ajusta a gusto)
+  setupLoopAnimation(
+    document.querySelector(".bike"),
+    "bike-ride",
+    4000, // duración animación
+    5000, // intervalo entre inicios
+    1000 // delay inicial opcional
+  );
 
-  // Pasadas siguientes en bucle
-  setInterval(runOnce, intervalMs);
-}
-
-// Bici: anima 4s, pasa cada 5s (ajusta a gusto)
-setupLoopAnimation(
-  document.querySelector(".bike"),
-  "bike-ride",
-  4000,   // duración animación
-  5000,   // intervalo entre inicios
-  1000    // delay inicial opcional
-);
-
-// Bus: anima 5s, pasa cada 7s, por ejemplo
-setupLoopAnimation(
-  document.querySelector(".bus"),
-  "bus-ride",
-  5000,
-  7000,
-  2000
-);
+  // Bus: anima 5s, pasa cada 7s, por ejemplo
+  setupLoopAnimation(
+    document.querySelector(".bus"),
+    "bus-ride",
+    5000,
+    7000,
+    2000
+  );
 });
-
-
