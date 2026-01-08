@@ -1,0 +1,14 @@
+﻿# Environment variables
+.env
+.env.local
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

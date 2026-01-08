@@ -400,7 +400,7 @@
           <form
             class="modal-form"
             id="contact-form"
-            action="/contact.php"
+            action="/api/contact.php"
             method="POST"
             novalidate
           >
@@ -425,6 +425,16 @@
                 <label for="message">Message</label>
                 <textarea id="message" name="message" rows="4"></textarea>
               </div>
+
+              <!-- Honeypot field for bot protection (hidden from users) -->
+              <input
+                type="text"
+                name="website"
+                style="position: absolute; left: -9999px"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
             </div>
             <div class="modal-footer modal-actions">
               <button
