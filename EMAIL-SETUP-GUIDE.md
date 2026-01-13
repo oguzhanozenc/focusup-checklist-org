@@ -1,156 +1,41 @@
-# Email Setup Guide for Focus Up Website
+# Deployment Guide - Focus Up Website
 
-**This website is ready to send emails from the contact form.**  
-You only need to connect it to your hosting and email address.
+**This site is deployed on Vercel with serverless PHP.**
 
-There are **two ways** your hosting can send emails:  
-**Option A**: Basic PHP `mail()` (simpler)  
-**Option B**: SMTP (more reliable if Option A fails)
+## For Clients
 
-**Start with Option A**. If emails don't arrive, use **Option B**.
+This website is already live and configured. To update content or troubleshoot:
 
----
+### Site URL
 
-## Files you need
+- Production: https://focusupchecklist.org
+- Preview: https://focusupchecklist.vercel.app
 
-- `index.html`: Contains the contact form  
-- `contact.php`: **THIS IS THE ONLY FILE YOU EDIT**  
-- CSS/JS already handle validation and "Thank you" message inside the modal
+### Contact Form Setup
 
----
+The contact form sends emails via SMTP. Email credentials are managed by your developer through Vercel's dashboard.
 
-## What to ask your hosting provider
+**To change the recipient email:** Contact your developer to update `api/contact.php`
 
-**For Option A**:  
-- "Does PHP `mail()` work on my plan?"  
-- Email address for the site (e.g. `info@yourdomain.com`)
+**If forms aren't working:** Check with your developer - SMTP credentials may need updating in Vercel.
 
-**For Option B (if needed)**:  
-- SMTP server (e.g. `smtp.yourdomain.com`)  
-- SMTP port (587 or 465)  
-- SMTP username (usually your full email)  
-- SMTP password
+### Making Content Changes
+
+1. Edit files in GitHub repository
+2. Commit and push changes
+3. Vercel automatically deploys (2-3 minutes)
+
+### Support
+
+For technical issues, contact your development team.
 
 ---
 
-## Option A: PHP mail() (Try this first)
+## For Developers
 
-### Step 1: Upload files
-Upload **all project files** (including `contact.php`) to your hosting's main folder (`public_html` or similar).
+See [README.md](README.md) for full deployment documentation including:
 
-### Step 2: Edit contact.php
-1. Open `contact.php` in any text editor
-2. Find this line (around line 25):
-$to = 'focusupchecklist@gmail.com'; // <-- I ALREADY CHANGED THIS
-
-text
-3. Replace with **your email**:
-$to = 'info@yourdomain.com';
-
-text
-
-4. Find these lines (around line 35):
-$headers = "From: Focus Up Website no-reply@su-dominio.com\r\n";
-
-text
-5. Change to **your domain**:
-$headers = "From: Focus Up Website no-reply@yourdomain.com\r\n";
-
-text
-
-### Step 3: Save & test
-1. Save and upload `contact.php`
-2. Open your website → Contact form → Fill required fields → **Send message**
-3. Should see: **"Thank you! Your message has been sent."** inside modal
-4. Check your email inbox (and spam folder)
-
-**✅ If you receive the email: DONE!**  
-**❌ If no email arrives: Go to Option B**
-
----
-
-## Option B: SMTP (if mail() doesn't work)
-
-### Step 1: Download PHPMailer
-1. Go to: https://github.com/PHPMailer/PHPMailer
-2. Click **"Code" → "Download ZIP"**
-3. Extract ZIP → copy the `src` folder
-
-Step 2: Upload PHPMailer
-
-Create folder `phpmailer` next to `contact.php`:
-```
-your-website/
-├── contact.php
-├── phpmailer/
-│   └── src/
-│       ├── PHPMailer.php
-│       ├── SMTP.php
-│       └── Exception.php
-└── index.html
-```
-
-text
-
-### Step 3: Edit contact.php for SMTP
-1. **At the top** (after `<?php`), add:
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require DIR . '/phpmailer/src/Exception.php';
-require DIR . '/phpmailer/src/PHPMailer.php';
-require DIR . '/phpmailer/src/SMTP.php';
-
-text
-
-2. **Replace the `mail()` section** (around line 40) with:
-$mail = new PHPMailer(true);
-try {
-$mail->isSMTP();
-$mail->Host = 'smtp.yourdomain.com'; // FROM YOUR HOSTING
-$mail->SMTPAuth = true;
-$mail->Username = 'info@yourdomain.com'; // YOUR EMAIL
-$mail->Password = 'your-email-password'; // YOUR PASSWORD
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port = 587; // 587 or 465
-
-text
-   $mail->setFrom('info@yourdomain.com', 'Focus Up');
-   $mail->addAddress($to);
-   $mail->Subject = $subject;
-   $mail->Body    = $body;
-
-   $mail->send();
-   echo 'OK';
-} catch (Exception $e) {
-http_response_code(500);
-echo 'Error sending email';
-}
-
-text
-
-3. Fill in **YOUR hosting details** and save/upload.
-
-### Step 4: Test again
-Same test as Option A. Should now work reliably.
-
----
-
-## Troubleshooting
-
-**"Please complete required fields"** → Fill name + email  
-**"Problem sending message"** → Check hosting PHP logs or contact support  
-**No PHPMailer errors** → Check spam folder or email password
-
----
-
-## Summary
-
-1. **Upload everything** to hosting
-2. **Edit 2 lines** in `contact.php` (email addresses)
-3. **Test form** → receive email or go to SMTP
-4. **SMTP only if needed** (5 min extra setup)
-
-The form already validates fields (*) and shows success/error messages. You're all set!
-
-**Need help?** Contact me: agustina.roig@gmail.com
+- Vercel setup
+- Environment variables
+- DNS configuration
+- Local development

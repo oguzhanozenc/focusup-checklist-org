@@ -1,4 +1,6 @@
 <?php
+session_start(); // ADD THIS AT TOP
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -6,13 +8,23 @@ require __DIR__ . '/phpmailer/src/Exception.php';
 require __DIR__ . '/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/phpmailer/src/SMTP.php';
 
-// CORS headers - allow browser requests 
-header('Access-Control-Allow-Origin: *');
+// CORS headers - restrict to specific origins
+$allowedOrigins = [
+    'https://focusupchecklist.org',
+    'https://www.focusupchecklist.org',
+    'https://focusupchecklist.vercel.app'
+];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header('Access-Control-Allow-Origin: https://focusupchecklist.org');
+}
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-// OPTIONS request for (preflight)
+// OPTIONS request (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -25,10 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+// Rate limiting - 5 submissions per hour
+$now = time();
+$rateLimit = 5;
+$ratePeriod = 3600;
+
+if (!isset($_SESSION['form_submissions'])) {
+    $_SESSION['form_submissions'] = [];
+}
+
+$_SESSION['form_submissions'] = array_filter(
+    $_SESSION['form_submissions'], 
+    function($timestamp) use ($now, $ratePeriod) {
+        return ($now - $timestamp) < $ratePeriod;
+    }
+);
+
+if (count($_SESSION['form_submissions']) >= $rateLimit) {
+    http_response_code(429);
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Too many requests. Please try again in an hour.'
+    ]);
+    exit();
+}
+
+$_SESSION['form_submissions'][] = $now;
+
 // JSON or form-data support
 $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
 if (strpos($contentType, 'application/json') !== false) {
-    // Data received as JSON
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
     $fullName = trim($data['fullName'] ?? '');
@@ -37,7 +75,6 @@ if (strpos($contentType, 'application/json') !== false) {
     $message  = trim($data['message'] ?? '');
     $honeypot = $data['website'] ?? '';
 } else {
-    // Data received as form-data
     $fullName = trim($_POST['fullName'] ?? '');
     $email    = trim($_POST['email'] ?? '');
     $org      = trim($_POST['organization'] ?? '');
@@ -54,6 +91,7 @@ if (strlen($fullName) < 2 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 // Honeypot check (bot protection)
 if (!empty($honeypot)) {
+    error_log('Honeypot triggered - IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown'));
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => 'Invalid input']);
     exit();
@@ -75,7 +113,7 @@ $body .= "Email: $email\n";
 $body .= "Organization: $org\n\n";
 $body .= "Message:\n$message\n";
 
-// Send via SMTP - credentials from environment variables (secure)
+// Send via SMTP
 $mail = new PHPMailer(true);
 try {
     $mail->isSMTP();
@@ -96,5 +134,9 @@ try {
     echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error sending email: ' . $mail->ErrorInfo]);
+    error_log('SMTP Error: ' . $mail->ErrorInfo);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Unable to send email. Please try again later.'
+    ]);
 }
