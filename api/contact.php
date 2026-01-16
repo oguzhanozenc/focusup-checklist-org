@@ -104,7 +104,7 @@ $org      = htmlspecialchars($org, ENT_QUOTES, 'UTF-8');
 $message  = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 // Destination email address
-$to = 'hello@oguzhanozenc.me';
+$to = 'focusupchecklist@gmail.com';
 $subject = 'New contact form message - Focus Up';
 
 // Email body
